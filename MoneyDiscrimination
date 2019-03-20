@@ -1,0 +1,62 @@
+import java.util.Scanner; // java.util/Scanner 에서 불러오기
+
+public class Problem3 { // 클래스 정의
+
+	public static void main(String[] args) { // 메인 메소드
+		
+		System.out.print("금액을 입력하시오. >> "); // 금액을 입력하시오 출력
+		Scanner my = new Scanner(System.in); // 입력받기
+		int money = my.nextInt(); // money에 입력받은 정수 넣기
+		
+		int OHman, ILman, ILchun, OHbaek, ILbaek, OHsib, ILsib, IL; // 지폐,동전 정의
+		
+		if(money/50000 >= 1) // money를 50000으로 나눠서 1이상이라면
+		{
+			OHman = money/50000; // OHman 은 money 나누기 50000이다
+			System.out.println("오만원권" +OHman+ "매"); // 오만원권 갯수 출력
+			money -= OHman*50000; // money에서 5만원권 갯수만큼 차감
+		}
+		if(money/10000 >=1) // money를 만으로 나눠서 1이상이라면
+		{
+			ILman = money/10000; // ILman은 money나누기 10000 이다
+					System.out.println("만원권" +ILman+ "매"); // 만원권 갯수 출력
+					money -= ILman*10000; //money에서 1만원권 갯수만큼 차감
+		}
+		if(money/1000 >=1) // money를 1000으로 나눠서 1이상이라면
+			{
+			ILchun = money/1000; // ILchun은 money에서 1000을 나눈 값이다
+			System.out.println("천원권" +ILchun+ "매"); // 천원권 갯수 출력
+			money -= ILchun*1000; // money에서 천원권 갯수만큼 차감
+			}
+		if(money/500 >=1) // money가 500으로 나눠서 1이상이라면
+		{
+			OHbaek = money/500; // OHbaek은 money에서 500으로 나눈 값이다
+			System.out.println("오백원" +OHbaek+ "개"); // 오백원 갯수 출력
+			money -= OHbaek*500; // money에서 오백원갯수만큼 차감
+		}
+		if(money/100 >=1) // money가 100으로 나눠서 1이상이라면
+		{
+			ILbaek = money/100; // ILbaek은 money나누기 100이다
+			System.out.println("백원" +ILbaek+ "개"); // 백원갯수 출력
+			money -= ILbaek*100; // money에서 백원 갯수만큼 차감
+		}
+		if(money/50 >=1) // money를 50으로 나눠서 1이상이라면
+		{
+			OHsib = money/50; // OHsib은 money나누기 50이다
+			System.out.println("오십원" +OHsib+ "개"); // 오십원 갯수 출력
+			money -= OHsib*50; // money에서 오십원 갯수만큼 차감
+		}
+		if(money/10 >=1) // money를 10으로 나눠서 1이상이라면
+		{
+			ILsib=money/10; // ILsib은 money나누기10이다
+			System.out.println("십원" +ILsib+ "개"); // 십원갯수 출력
+			money -= ILsib*10; // money에서 십원갯수만큼 차감
+		}
+		if(money/1>=1) // money에서 1을 나눠서 1이상이라면
+		{
+			IL=money/1; // IL은 money에서 1을 나눈 값이다
+			System.out.println("십원" +IL+ "개"); // 십원갯수 출력
+			
+		}
+	}
+}
