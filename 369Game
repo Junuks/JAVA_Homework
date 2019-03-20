@@ -1,0 +1,47 @@
+
+import java.util.Scanner; // java.util.Scanner 에서 불러오기
+
+public class Problem6 { // 클래스 정의
+
+	public static void main(String[] args) { // 메인 메소드
+		
+		System.out.print("1~99사이의 정수를 입력하시오 >> "); // 1~99사이의 정수를 입력하시오 출력
+		
+		Scanner nm = new Scanner(System.in); // 정수 입력받기
+		int number = nm.nextInt(); // 입력받은 정수 number로 정의
+		
+		int SIB, IL; // SIB,IL 정의
+		SIB = number/10; // SIB은 number에서 10을 나눈 값
+		IL = number - (number/10)*10; // IL은 number에서 10을 나눈 정수에 10을 곱한 값을 number에서 뺀 값
+		
+		if(SIB>=1) // 십의 자릿수가 1이상이라면
+		{
+			if(SIB==3 || SIB==6 || SIB==9 ) //십의 자릿수가 3,6,9 라면
+			{
+								
+				if(IL==3 || IL==6 || IL==9 ) // 일의 자릿수가 3,6,9 라면
+				{
+					System.out.println("박수짝짝"); // 박수짝짝을 출력
+				}
+			}
+			
+			else // 십의자릿수가 3,6,9가 아니라면
+			{
+				if(IL==3 || IL==6 || IL==9 ) // 일의 자릿수가 3,6,9 라면
+				{
+					System.out.println("박수짝"); // 박수짝을 출력
+				}
+			}
+			
+		}
+		else // 십의 자릿수가 1이 아니라면
+		{
+			if(IL==3 || IL==6 || IL==9) // 일의 자릿수가 3,6,9 라면
+			{
+				System.out.println("박수짝"); // 박수짝을 출력
+			}
+		}
+
+	}
+
+}
