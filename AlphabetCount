@@ -1,0 +1,51 @@
+import java.util.Scanner; // 스캐너 가져오기
+
+public class EnglishCount{
+	static StringBuffer sb;
+	final static int MAX_alpha = 26;
+	static int alpha[] = new int[MAX_alpha]; // alpha의 최대크기지정
+	
+	public static void alphaReset() { // alpha배열을 리셋하는 매소드
+		for(int i=0; i<MAX_alpha; i++) {
+			alpha[i] = 0; // alpha배열을 모두 0으로 초기화
+		}
+	}
+	static String readString() { // 사용자로부터 입력받는 메소드
+		StringBuffer sb = new StringBuffer();
+		Scanner scanner = new Scanner(System.in);
+		while(true) {
+			String line = scanner.nextLine(); // 입력받은 것을 String형의 line으로 정의
+			if(line.length() == 1 && line.charAt(0) == ';') {break;} // ;이 나왔을때 입력받기 중지
+			sb.append(line); // 버퍼에 입력받은글 저장
+		}
+		return sb.toString(); // sb로 리턴
+	}
+	public static void Count() { // 알파벳갯수를 세는 메소드
+		String read = readString();
+		read = read.toUpperCase(); // 모두 대문자로 변경
+		for(int i=0; i<read.length(); i++) { // 입력받은글의 길이만큼 반복
+			char al = read.charAt(i); // 입력받은 알파벳을 al로 선언
+			if(Character.isAlphabetic(al)) { // 알파벳이라면
+				for(int j=65; j<=90; j++) { // 아스키코드 A에서 Z까지
+					if(al == j) {alpha[j-65]++;} // alpha배열에 저장
+				}
+			}
+		}
+	}
+	public static void Print() { // 히스토그램을 출력하는 메소드
+		System.out.println("히스토그램을 그립니다.");
+		for(int i=0; i<MAX_alpha; i++) { // 알파벳갯수만큼 반복
+			System.out.print((char)(i+65)); // 알파벳출력
+			for(int j=0; j<alpha[i]; j++) { // alpha배열에 저장된 수만큼 - 출력
+				System.out.print("-");
+			}
+			System.out.println("");
+		}
+	}
+	public static void main(String[] args) {
+		alphaReset(); // 배열 초기화
+		System.out.println("영문 텍스트를 입력하고 세미콜론을 입력하세요.");
+		Count(); // 입력받은 알파벳을 구분하여 저장
+		Print(); // 갯수만큼 출력
+	}
+}
