@@ -1,0 +1,97 @@
+import java.util.*;
+//Word 클래스
+class Word{
+	public String eng;
+	public String kor;
+	public Word(String eng, String kor) { // 영단어와 뜻을 연결하는 Word메소드
+		this.eng = eng;
+		this.kor = kor;
+	}
+	public String getEng() { return eng;} // eng를 리턴하는 메소드
+	public String getKor() { return kor;} // kor을 리턴하는 메소드
+}
+// WordQuiz 클래스
+public class WordQuiz {	
+	static Vector<Word> v = new Vector<Word>(); // Vector v 정의
+	// 단어를 추가하는 메소드
+	public static void WordQuiz(){
+		v.add(new Word("painting","그림"));
+		v.add(new Word("bear","곰"));
+		v.add(new Word("eye","눈"));
+		v.add(new Word("picture","사진"));
+		v.add(new Word("society","사회"));
+		v.add(new Word("human","인간"));
+		v.add(new Word("animal","동물"));
+		v.add(new Word("love","사랑"));
+		v.add(new Word("emotion","감정"));
+		v.add(new Word("doll","인형"));
+		v.add(new Word("fault","오류"));
+		v.add(new Word("trade","거래"));
+		v.add(new Word("example","보기"));
+		v.add(new Word("statue","조각상"));
+		v.add(new Word("java","자바"));
+		v.add(new Word("computer","컴퓨터"));
+		v.add(new Word("room","방"));
+	}
+	// 보기를 추가하는 메소드
+	public static int listShow(int exam[], int answer) {
+		int list[] = new int[4]; // list를 4개짜리 배열로 생성
+		int index;
+		for(int i=0; i<list.length; i++) { // list의 크기보다 작을때까지 반복
+			do {
+				index = (int)(Math.random()*v.size()); // index에 v의사이즈만큼 랜덤수 부여
+			} while(index == answer || right(list, index)); // index에 정답인 단어가 들어갈때까지 실행
+			list[i] = index; // list에 index 추가
+		}
+		for(int i=0; i<list.length; i++) {exam[i] = list[i];} // list의 크기보다 작을때까지 반복
+		return (int)(Math.random()*list.length); // list의 크기만큼 랜덤수로 리턴
+	}
+	public static boolean right(int n[], int index) {
+		for(int i=0; i<n.length; i++) {
+			if(n[i] == index) // 배열에 index가 들어가면
+				return true; // true 리턴
+		}
+		return false;
+	}
+	//문제를 실행하는 메소드
+	public static void Quiz() {
+		System.out.println("명품영어의 단어테스트를 시작합니다. -1을 입력하면 종료합니다.");
+		System.out.println("현재 "+v.size()+"개의 단어가 들어 있습니다.");
+		while(true) {
+		int quest = (int) (Math.random()*v.size());
+		int example[] = new int[4];
+		int answerCollect = listShow(example, quest); // listShow() 가져와서 answerCollect에 넣기
+		example[answerCollect] = quest;
+		System.out.println(v.get(quest).getEng() + "?");
+		
+		for(int i=0; i<example.length; i++) { // 보기 4가지를 출력
+			System.out.print("("+(i+1)+")"+v.get(example[i]).getKor()+"");
+		}
+		System.out.print(" :> ");
+		try {
+				Scanner scanner = new Scanner(System.in);
+				int userAnswer = scanner.nextInt(); // 사용자로부터 입력받기
+				if(userAnswer > 5) { System.out.println("잘못입력했습니다."); } // 5이상이면 잘못입력
+				if(userAnswer < -1 || userAnswer == 0) { System.out.println("잘못입력했습니다."); } // 음수를 입력하면 잘못입력
+				if(userAnswer == -1) { // -1을 입력하면 종료
+					System.out.println("명품영어를 종료합니다...");
+					break;
+				}
+				if(userAnswer == answerCollect+1) { // 정답일때
+					System.out.println("Excellent !!");
+				}
+				else if(userAnswer != answerCollect+1 && userAnswer >= 1 && userAnswer <= 4){ // 틀린답일때
+					System.out.println("NO. !!");
+				}
+		}
+		catch(InputMismatchException e) { // 숫자가 아닌것을 입력했을때
+			System.out.println("숫자만 입력하세요.");
+		}
+		}
+	}
+	//메인메소드
+	public static void main(String[] args) {
+		WordQuiz(); // 단어저장
+		Quiz(); // 실행
+	}
+}
