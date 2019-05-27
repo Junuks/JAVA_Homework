@@ -1,0 +1,46 @@
+// 각종 필요한것들 가져오기
+import java.awt.*;
+import javax.swing.*;
+import java.awt.event.*;
+
+public class ProblemSix extends JFrame{
+	JLabel C;
+	ProblemSix(){
+		setTitle("클릭 연습 용 응용프로그램"); // 제목 설정
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // 닫기활성화
+		setSize(300, 300); // 크기설정
+		setLayout(null); // 배치관리자 없음
+		
+		Mouse CL = new Mouse(); // 이벤트 설정
+		// C에 대한 크기,위치,폰트설정하기
+		C = new JLabel("C");
+		C.setSize(30,30);
+		C.setLocation(100,100);
+		C.setFont(new Font("Consolas",Font.PLAIN,30));
+		
+		C.setOpaque(true); // 배경 투명으로 하기
+		
+		C.addMouseListener(CL); // 이벤트 추가
+		
+		add(C); // C 추가하기
+        setVisible(true); // 보여주기
+	}
+	// 마우스 이벤트 메소드
+	class Mouse implements MouseListener{
+		public void mouseClicked(MouseEvent e) { // 마우스 클릭하면
+			JLabel C = (JLabel)e.getSource(); // C가져오기
+			int X = (int)(Math.random()*250); // X좌표 랜덤으로 받기
+			int Y = (int)(Math.random()*250); // Y좌표 랜덤으로 받기
+			C.setLocation(X,Y); // C를 랜덤한 좌표로 설정
+		}
+		// 그외의 마우스반응에 설정없음
+		public void mousePressed(MouseEvent e) {}
+		public void mouseReleased(MouseEvent e) {}
+		public void mouseEntered(MouseEvent e) {}
+		public void mouseExited(MouseEvent e) {}
+	}
+	// 메인 메소드
+	public static void main(String[] args) {
+		new ProblemSix(); // 실행하기
+	}
+}
