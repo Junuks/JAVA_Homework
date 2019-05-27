@@ -1,0 +1,79 @@
+// 필요한 것들 가져오기
+import java.awt.*;
+import javax.swing.*;
+import java.awt.event.*;
+
+public class Openchallenge extends JFrame{
+	JLabel one,two,three, text;
+	Openchallenge(){
+		setTitle("Open Challenge 10"); // 제목설정
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // 닫기활성화
+		setSize(500, 300); // 크기설정
+		
+		setLayout(null); // 배치관리자 없음
+		addKeyListener(new MyKeyAdapter()); // 이벤트 가져오기
+		// 랜덤수를 받을 3개의 박스설정
+		one = new JLabel((int)(Math.random()*5)+"",SwingConstants.CENTER);
+		two = new JLabel((int)(Math.random()*5)+"",SwingConstants.CENTER);
+		three = new JLabel((int)(Math.random()*5)+"",SwingConstants.CENTER);
+		
+		text = new JLabel("시작합니다.",SwingConstants.CENTER); // 시작 텍스트 설정
+		// one의 색,위치,크기,폰트를 설정
+		one.setBackground(Color.PINK);
+		one.setSize(100,50);
+		one.setLocation(40,80);
+		one.setFont(new Font("Consolas",Font.PLAIN,30));
+		one.setOpaque(true);
+		// two의 색,위치,크기,폰트를 설정
+		two.setBackground(Color.PINK);
+		two.setSize(100,50);
+		two.setLocation(180,80);
+		two.setFont(new Font("Consolas",Font.PLAIN,30));
+		two.setOpaque(true);
+		// three의 색,위치,크기,폰트를 설정
+		three.setBackground(Color.PINK);
+		three.setSize(100,50);
+		three.setLocation(320,80);
+		three.setFont(new Font("Consolas",Font.PLAIN,30));
+		three.setOpaque(true);
+		// 텍스트의 크기,위치 설정
+		text.setSize(300,50);
+		text.setLocation(80,170);
+		// 만든것들 추가
+		add(one);
+		add(two);
+		add(three);
+		add(text);
+		
+		setVisible(true); // 보여주기
+		requestFocus(); // 포커스 주기
+	}
+	// 이벤트를 설정할 메소드
+	class MyKeyAdapter extends KeyAdapter{
+		public void keyPressed(KeyEvent e) {
+			if(e.getKeyChar() == '\n') { // 엔터를 입력받으면
+				one.setText((int)(Math.random()*5)+"");
+				two.setText((int)(Math.random()*5)+"");
+				three.setText((int)(Math.random()*5)+"");
+				if(one.getText().equals(two.getText())) { // 두 수가 같고
+					if(two.getText().equals(three.getText())) { // 세 수가 모두 같다면
+						text.setText("축하합니다!!");
+					}
+					else { // 하나가 다르다면
+						text.setText("아쉽군요");
+					}
+				}
+				else { // 세 수 모두 다르다면
+					text.setText("아쉽군요");
+				}
+			}
+			if(e.getKeyChar() != '\n') { // 엔터를 입력하지 않았다면
+				text.setText("엔터만 입력하세요");
+			}
+		}
+	}
+	// 메인 메소드
+	public static void main(String[] args) {
+		new Openchallenge(); // 실행하기
+	}
+}
