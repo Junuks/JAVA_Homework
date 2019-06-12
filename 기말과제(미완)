@@ -1,0 +1,180 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.*;
+
+public class Live extends JFrame {
+	int money=50;
+	int commu=50;
+	int grade=50;
+	int level=0;
+	private Title panel = new Title();
+	public Live() {
+		setTitle("대학생으로 살아남기");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		createMenu();
+		setContentPane(panel);
+		setLayout(new BorderLayout());
+		JPanel buttonpanel = new JPanel();
+		// yes버튼
+		JButton yes = new JButton("예");
+		yes.setLocation(100,350);
+		yes.setSize(50,50);
+		yes.setForeground(Color.black);
+		yes.setBackground(Color.white);
+		yes.setFont(new Font("굴림",Font.PLAIN,30));
+		yes.setVisible(true);
+		MouseListener MouseListenerY = new MouseListenerY();
+		yes.addMouseListener(MouseListenerY);
+		//no버튼
+		JButton no = new JButton("아니요");
+		no.setLocation(300,350);
+		no.setSize(50,50);
+		no.setForeground(Color.black);
+		no.setBackground(Color.white);
+		no.setFont(new Font("굴림",Font.PLAIN,30));
+		no.setVisible(true);
+		MouseListener MouseListenerN = new MouseListenerN();
+		no.addMouseListener(MouseListenerN);
+		//버튼붙이기
+		buttonpanel.add(yes);
+		buttonpanel.add(no);
+		add(buttonpanel,BorderLayout.SOUTH);
+		setSize(500,500);
+		setVisible(true);
+	}
+	// 첫 시작시 제목출력
+	class Title extends JPanel{
+		public void paintComponent(Graphics g) {
+			super.paintComponent(g);
+			g.setColor(Color.black);
+			g.drawString("대학생으로 살아남기",180,170);
+			g.setFont(new Font("굴림",Font.PLAIN,50));
+		}
+	}
+	// 메뉴설정
+	public void createMenu() {
+		MenuActionListener1 Act1 = new MenuActionListener1();
+		MenuActionListener2 Act2 = new MenuActionListener2();
+		JMenuBar menubar = new JMenuBar();
+		JMenu file = new JMenu("설정");
+		JMenuItem close = new JMenuItem("닫기");
+		JMenuItem Re = new JMenuItem("재시작");
+		close.addActionListener(Act1);
+		Re.addActionListener(Act2);
+		
+		file.add(Re);
+		file.add(close);
+		menubar.add(file);
+		setJMenuBar(menubar);
+	}
+	// 종료이벤트
+	class MenuActionListener1 implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			System.exit(0);//종료
+		}
+	}
+	// 재시작이벤트
+	class MenuActionListener2 implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			new Live();
+		}
+	}
+	//Yes마우스이벤트
+	class MouseListenerY implements MouseListener {
+		public void mouseReleased(MouseEvent e) {}
+		public void mouseClicked(MouseEvent e) {
+			if(level == 0) { oneWeek(); level++; }
+			else if(level == 1) { money-=20; commu+=20; level++; Over(); twoWeek();}
+			else if(level == 2) { money-=20; commu+=20; level++; Over(); threeWeek(); }
+			else if(level == 3) { money-=20; commu+=20; grade-=30; level++; Over(); fourWeek(); }
+			else if(level == 4) { money-=20; commu+=20; level++; Over(); fiveWeek(); }
+			else if(level == 5) { money-=20; commu+=20; grade-=30; Over(); End(); }
+		}
+		public void mousePressed(MouseEvent e) {}
+		public void mouseEntered(MouseEvent e) {}
+		public void mouseExited(MouseEvent e) {}
+	}
+	//No마우스이벤트
+	class MouseListenerN implements MouseListener {
+		public void mouseReleased(MouseEvent e) {}
+		public void mouseClicked(MouseEvent e) {
+			if(level == 0) { System.exit(0); }
+			else if(level == 1) { money+=20; commu-=20; level++; Over(); twoWeek(); }
+			else if(level == 2) { money+=20; commu-=20; level++; Over(); threeWeek(); }
+			else if(level == 3) { money+=20; commu-=20; grade+=25; level++; Over(); fourWeek(); }
+			else if(level == 4) { money+=20; commu-=20; level++; Over(); fiveWeek(); }
+			else if(level == 5) { money+=20; commu-=20; grade+=25; Over(); End(); }
+		}
+		public void mousePressed(MouseEvent e) {}
+		public void mouseEntered(MouseEvent e) {}
+		public void mouseExited(MouseEvent e) {}
+	}
+	// 게임중간에 재화가 너무높거나 너무낮을 때 
+	void Over() {
+		if(money > 100) {money = 100; HurryEnd();}
+		if(commu > 100) {commu = 100; HurryEnd();}
+		if(grade > 100) {grade = 100; HurryEnd();}
+		if(money < 0) {money = 0; HurryEnd();}
+		if(commu < 0) {commu = 0; HurryEnd();}
+		if(grade < 0) {grade = 0; HurryEnd();}
+	}
+	// 1주차
+	void oneWeek() {
+		setTitle("1주차");
+		// 개강파티 술먹을까요 말까요
+	}
+	// 2주차
+	void twoWeek() {
+		setTitle("2주차");
+		// 벚꽃이 폈다. 놀러갈까말까
+	}
+	// 3주차
+	void threeWeek() {
+		setTitle("중간고사");
+		// 벌써 중간고사다 공부스트레스때문에 술을 먹으러간다
+	}
+	// 4주차
+	void fourWeek() {
+		setTitle("4주차");
+		// 축제다 술을 먹을까 말까
+	}
+	// 5주차
+	void fiveWeek() {
+		setTitle("기말고사");
+		// 벌써 기말고사다 선배들이 1학년땐 놀아도 된다고한다 논다 안논다
+	}
+	// 엔딩
+	void End() {
+		level=0;
+		if(money>=50 && commu>=50 && grade>=50) {
+			//아무생각없이군대감
+		}
+		else if(money<50 && commu<50 && grade<50) {
+			//성적이낮아서 혼남
+		}
+		else if(money>=50 && commu>=50 && grade>=90) {
+			//장학금받음
+		}
+	}
+	// 5주 이전에 엔딩볼때, 재화관리 실패
+	void HurryEnd() {
+		level = 0;
+		if(money == 100) {
+			//돈이너무많아서 친구가 달라붙음
+		}
+		else if(money == 0) {
+			//돈이없어서 굶어죽음
+		}
+		else if(commu == 100) {
+			//친구가너무많아서 공부가안됨
+		}
+		else if(commu == 0) {
+			//친구가없어서 외로워죽음
+		}
+	}
+	// 메인
+	public static void main(String[] args) {
+		new Live();
+	}
+}
