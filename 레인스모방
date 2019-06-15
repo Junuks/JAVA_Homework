@@ -1,0 +1,151 @@
+/*
+ * 자바 기말 프로젝트 - '대학생으로 살아남기'게임
+ */
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.*;
+
+public class Live extends JFrame {
+	//재화3가지
+	int money=50;
+	int commu=50;
+	int grade=50;
+	//진행단계
+	int level=0;
+	ImageIcon [] images = {new ImageIcon("images/title.jpg"), new ImageIcon("images/oneWeek.jpg"), new ImageIcon("images/twoWeek.jpg"),
+			new ImageIcon("images/threeWeek.jpg"),new ImageIcon("images/fourWeek.jpg"),new ImageIcon("images/fiveWeek.jpg"),
+			new ImageIcon("images/EndOne.jpg"),new ImageIcon("images/EndTwo.jpg"),new ImageIcon("images/EndThree.jpg")
+	};
+	JLabel imageLabel = new JLabel(images[0]);
+	
+	public Live() {
+		setTitle("대학생으로 살아남기");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setLayout(new BorderLayout());
+		
+		JPanel Bpanel = new JPanel();
+		 //메뉴
+		createMenu();
+		// yes버튼
+		JButton yes = new JButton("예");
+		yes.setLocation(100,350);
+		yes.setSize(50,50);
+		yes.setForeground(Color.black);
+		yes.setBackground(Color.white);
+		yes.setFont(new Font("굴림",Font.PLAIN,30));
+		yes.setVisible(true);
+		MouseListener MouseListenerY = new MouseListenerY();
+		yes.addMouseListener(MouseListenerY);
+		//no버튼
+		JButton no = new JButton("아니요");
+		no.setLocation(300,350);
+		no.setSize(50,50);
+		no.setForeground(Color.black);
+		no.setBackground(Color.white);
+		no.setFont(new Font("굴림",Font.PLAIN,30));
+		no.setVisible(true);
+		MouseListener MouseListenerN = new MouseListenerN();
+		no.addMouseListener(MouseListenerN);
+		//버튼붙이기
+		Bpanel.add(yes);
+		Bpanel.add(no);
+		// 위치지정
+		add(Bpanel,BorderLayout.SOUTH);
+		add(imageLabel,BorderLayout.CENTER);
+		
+		setSize(500,500);
+		setVisible(true);
+		setResizable(true);
+	}
+	// 메뉴설정
+	public void createMenu() {
+		//메뉴이벤트2개
+		MenuActionListener1 Act1 = new MenuActionListener1();
+		MenuActionListener2 Act2 = new MenuActionListener2();
+		
+		JMenuBar menubar = new JMenuBar();
+		JMenu file = new JMenu("설정");
+		JMenuItem close = new JMenuItem("닫기");
+		JMenuItem Re = new JMenuItem("재시작");
+		close.addActionListener(Act1);
+		Re.addActionListener(Act2);
+		
+		file.add(Re);
+		file.add(close);
+		menubar.add(file);
+		setJMenuBar(menubar);
+	}
+	// 메뉴 - 종료이벤트
+	class MenuActionListener1 implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			System.exit(0);//종료
+		}
+	}
+	// 메뉴 - 재시작이벤트
+	class MenuActionListener2 implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			new Live();
+		}
+	}
+	//Yes마우스이벤트
+	class MouseListenerY implements MouseListener {
+		public void mouseReleased(MouseEvent e) {}
+		public void mouseClicked(MouseEvent e) {
+			if(level == 0) { level++; setTitle("1주차"); imageLabel.setIcon(images[1]); }
+			else if(level == 1) { setTitle("2주차"); imageLabel.setIcon(images[2]); money-=20; commu+=20; level++; Over(); }
+			else if(level == 2) { setTitle("3주차"); imageLabel.setIcon(images[3]); money-=20; commu+=20; level++; Over(); }
+			else if(level == 3) { setTitle("4주차"); imageLabel.setIcon(images[4]); money-=20; commu+=20; grade-=30; level++; Over(); }
+			else if(level == 4) { setTitle("5주차"); imageLabel.setIcon(images[5]); money-=20; commu+=20; level++; Over(); }
+			else if(level == 5) { money-=20; commu+=20; grade-=30; Over();
+			if(money>=50 && money <=80 && commu>=50 && commu<=80 && grade>=50 && grade<=80) {
+				setTitle("엔딩1"); imageLabel.setIcon(images[6]); level++; } // 엔딩1
+			if(money==0 || commu==0 || grade==0) {
+				setTitle("엔딩2"); imageLabel.setIcon(images[7]); level++; } // 엔딩2
+			if(money>=90 && commu>=90 && grade>=90) {
+				setTitle("엔딩3"); imageLabel.setIcon(images[8]); level++; } // 엔딩3
+			}
+			else if(level==6) { setTitle("대학생으로 살아남기"); imageLabel.setIcon(images[0]); level=0; }
+		}
+		public void mousePressed(MouseEvent e) {}
+		public void mouseEntered(MouseEvent e) {}
+		public void mouseExited(MouseEvent e) {}
+	}
+	//No마우스이벤트
+	class MouseListenerN implements MouseListener {
+		public void mouseReleased(MouseEvent e) {}
+		public void mouseClicked(MouseEvent e) {
+			if(level == 0) { System.exit(0); }
+			else if(level == 1) { setTitle("2주차"); imageLabel.setIcon(images[2]); money+=20; commu-=20; level++; Over(); }
+			else if(level == 2) { setTitle("3주차"); imageLabel.setIcon(images[3]); money+=20; commu-=20; level++; Over(); }
+			else if(level == 3) { setTitle("4주차"); imageLabel.setIcon(images[4]); money+=20; commu-=20; grade+=25; level++; Over(); }
+			else if(level == 4) { setTitle("5주차"); imageLabel.setIcon(images[5]); money+=20; commu-=20; level++; Over(); }
+			else if(level == 5) { money+=20; commu-=20; grade+=25; Over();
+			if(money>=50 && money <=80 && commu>=50 && commu<=80 && grade>=50 && grade<=80) {
+				setTitle("엔딩1"); imageLabel.setIcon(images[6]); level++; }
+			if(money==0 || commu==0 || grade==0) {
+				setTitle("엔딩2"); imageLabel.setIcon(images[7]); level++; }
+			if(money>=90 && commu>=90 && grade>=90) {
+				setTitle("엔딩3"); imageLabel.setIcon(images[8]); level++; }
+			}
+			else if(level==6) { System.exit(0); }
+		}
+		public void mousePressed(MouseEvent e) {}
+		public void mouseEntered(MouseEvent e) {}
+		public void mouseExited(MouseEvent e) {}
+	}
+	// 게임중간에 재화가 너무높거나 너무낮을 때 
+	void Over() {
+		if(money > 100) {money = 100; }
+		if(commu > 100) {commu = 100; }
+		if(grade > 100) {grade = 100; }
+		if(money < 0) {money = 0; }
+		if(commu < 0) {commu = 0; }
+		if(grade < 0) {grade = 0; }
+	}
+	// 메인
+	public static void main(String[] args) {
+		new Live();
+	}
+}
