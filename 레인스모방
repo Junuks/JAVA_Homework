@@ -12,8 +12,8 @@ public class Live extends JFrame {
 	int money=50;
 	int commu=50;
 	int grade=50;
-	//진행단계
-	int level=0;
+	int level=0; //진행단계
+	// 사진저장할 배열
 	ImageIcon [] images = {new ImageIcon("images/title.jpg"), new ImageIcon("images/oneWeek.jpg"), new ImageIcon("images/twoWeek.jpg"),
 			new ImageIcon("images/threeWeek.jpg"),new ImageIcon("images/fourWeek.jpg"),new ImageIcon("images/fiveWeek.jpg"),
 			new ImageIcon("images/EndOne.jpg"),new ImageIcon("images/EndTwo.jpg"),new ImageIcon("images/EndThree.jpg")
