@@ -1,0 +1,103 @@
+
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import java.math.*;
+
+public class Game3 extends JFrame {
+	public class TimerRunnable implements Runnable {
+		public void TimerRunnable(JLabel timerL) {
+			this.timerL = timerL;
+		}
+		private JLabel timerL;
+		public void run() {
+			int n=0; // 타이머의 첫시작 수
+			while(true) {
+				timerL.setText(Integer.toString(n));
+				n++;
+				try {
+					Thread.sleep(1000); // 1초
+				}
+				catch(InterruptedException e) {
+					return; // 오류나면 종료
+				}
+			}
+		}
+	}
+	
+	JLabel[] l = new JLabel[21]; // 숫자가 들어갈 배열
+	
+	private Thread th;	
+	int flag = 1; // 첫시작 수
+	JButton bt = new JButton("확인"); //버튼생성
+	
+	public Game3() {
+		setTitle("15112141 황준욱 3번게임");
+		rLabel(l); // 라벨들 추가
+		//타이머숫자 설정
+		JLabel timer = new JLabel();
+		timer.setFont(new Font("굴림",Font.PLAIN,30));
+		timer.setLocation(450,450);
+		// 버튼설정
+		bt.addMouseListener(new MouseListener() {
+			public void mouseClicked(MouseEvent e) { // 버튼을 마우스클릭하면
+				th.interrupt();
+				JButton bt = (JButton)e.getSource(); // 버튼가져오기
+				th.start(); // 버튼누르면 타이머 시작
+			}
+		});
+		add(bt);
+		bt.setVisible(false);
+		bt.setLocation(400,400);
+		bt.setSize(60,60);
+		// 타이머설정
+		TimerRunnable runn = new TimerRunnable();
+		th = new Thread(runn);
+		add(timer);
+		timer.setVisible(true);
+		
+		setSize(500,500); // 크기설정
+		setVisible(true);
+		
+		th.start();
+	}
+	
+	// 마우스이벤트
+	class MouseListener extends MouseAdapter {
+		public void mousePressed(MouseEvent e) { // 마우스누르면
+			JLabel j = (JLabel)e.getSource();
+			// 처음시작할때 1부터시작하게
+			if(j==l[flag]) {
+				if(l[flag].getText().equals(Integer.toString(flag))) {
+					l[flag].setVisible(false);
+				     flag++; // 숫자증가
+				}
+				// 20이 안보이게되면 실행
+				if (!l[20].isVisible()) {
+                    flag = 1; // 시작수를 1로 초기화
+                    th.stop(); // 타이머멈추기
+                    bt.setVisible(true); // 버튼보여주기
+                    }
+			}
+		}
+		// 그외 마우스변화에 변화없음
+		  public void mouseEntered(MouseEvent e){};
+		  public void mouseExited(MouseEvent e){};
+		  public void mouseClicked(MouseEvent e){};
+		  public void mouseDragged(MouseEvent e){};
+		  public void mouseMoved(MouseEvent e){};
+		  public void mouseReleased(MouseEvent e){};
+	}
+	// 랜덤위치로 숫자출력
+	public void rLabel(JLabel[] l) {
+	    for (int i = 1; i < 21; i++) { // 1부터 21미만까지
+	        l[i] = new JLabel(Integer.toString(i));
+	        int x = (int) (Math.random() * 400);
+	        int y = (int) (Math.random() * 400);
+	        l[i].setSize(15, 15); // 크기 15x15
+	        l[i].setLocation(x, y); // 위치 랜덤
+	        add(l[i]); // 숫자들 화면에 붙이기
+	        l[i].addMouseListener(new MouseListener());
+	    }
+	}
+}
