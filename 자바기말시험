@@ -1,0 +1,201 @@
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.io.*;
+
+public class No1 extends JFrame {
+	JFrame fr = new JFrame();
+	JTextArea tt = new JTextArea(); //텍스트공간
+	//메뉴설정
+	public No1() {
+		setTitle("ㅇㅇㅇ");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		createMenu(); //메뉴추가
+		add(tt);//텍스트추가
+		tt.setFont(new Font("굴림",Font.PLAIN,20));
+		tt.setVisible(true);//텍스트 보이기
+		add(new JScrollPane(tt)); //텍스트에 스크롤추가
+		setSize(500,500); // 크기설정
+		setVisible(true);
+	}
+	private void createMenu() {
+		JMenuBar meba = new JMenuBar(); // 메뉴바
+		//이벤트 불러오기
+		MenuActionListener1 Act1 = new MenuActionListener1();
+		MenuActionListener2 Act2 = new MenuActionListener2();
+		MenuActionListener3 Act3 = new MenuActionListener3();
+		MenuActionListener4 Act4 = new MenuActionListener4();
+		MenuActionListener5 Act5 = new MenuActionListener5();
+		MenuActionListener6 Act6 = new MenuActionListener6();
+		MenuActionListener7 Act7 = new MenuActionListener7();
+		MenuActionListener8 Act8 = new MenuActionListener8();
+		//메뉴1
+		JMenu First = new JMenu("1번문제");
+		//메뉴1밑에 목록
+		JMenuItem FFirst = new JMenuItem("실행");
+		//메누에 붙이기 + 이벤트추가
+		First.add(FFirst);;
+		FFirst.addActionListener(Act1);
+		//메뉴2-1
+		JMenu Second = new JMenu("2-1번문제");
+		JMenuItem SFirst = new JMenuItem("New");
+		JMenuItem SSecond = new JMenuItem("Open");
+		JMenuItem SThird = new JMenuItem("Save");
+		JMenuItem SForth = new JMenuItem("SaveAs");
+		//메뉴2-1 밑에 목록
+		Second.add(SFirst);
+		Second.add(SSecond);
+		Second.addSeparator(); //분리선
+		Second.add(SThird);
+		Second.add(SForth);
+		// 메뉴2-1의 이벤트추가
+		SFirst.addActionListener(Act2);
+		SSecond.addActionListener(Act3);
+		SThird.addActionListener(Act4);
+		SForth.addActionListener(Act5);
+		// 메뉴 2-2
+		JMenu Third = new JMenu("2-2번문제");
+		JMenuItem TFirst = new JMenuItem("Open");
+		JMenuItem TSecond = new JMenuItem("Color");
+		JMenuItem TThird = new JMenuItem("Line");
+		JMenuItem TForth = new JMenuItem("Rect");
+		JMenuItem Tfive = new JMenuItem("Oval");
+		JMenuItem Tsix = new JMenuItem("RndRect");
+		JMenuItem Tseven = new JMenuItem("Text");
+		JMenuItem Teight = new JMenuItem("FreeLine");
+		// 메뉴2-2 밑에 목록
+		Third.add(TFirst);
+		Third.addSeparator();
+		Third.add(TSecond);
+		Third.addSeparator();
+		Third.add(TThird);
+		Third.add(TForth);
+		Third.add(Tfive);
+		Third.add(Tsix);
+		Third.add(Tseven);
+		Third.add(Teight);
+		// 메뉴3
+		JMenu Four4 = new JMenu("3,4,5번문제");
+		JMenuItem Fone = new JMenuItem("게임시작");
+		JMenuItem FSecond = new JMenuItem("계산기");
+		JMenuItem FThird = new JMenuItem("자바란?");
+		// 메뉴3 밑에 목록
+		Four4.add(Fone);
+		Four4.add(FSecond);
+		Four4.add(FThird);
+		// 메뉴3의 이벤트추가
+		Fone.addActionListener(Act6);
+		FSecond.addActionListener(Act7);
+		FThird.addActionListener(Act8);
+		//메뉴추가
+		meba.add(First);
+		meba.add(Second);
+		meba.add(Third);
+		meba.add(Four4);
+		//메뉴바 추가
+		setJMenuBar(meba);
+		}
+	// 1번문제 - 정보출력
+	class MenuActionListener1 implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			tt.setText("성명 : ㅇㅇㅇ"+"\n"+"학번 : 15112141"+"\n"+"학과:ㅇㅇㅇㅇㅇㅇ"+"\n"+"장래희망:돈많은백수"
+		+"\n"+"여름방학계획:돈모으기"+"\n"+"다음학기계획:공부하기"+"\n"+"좌우명:먹고죽자"+"\n"+"내인생의멘토:나"+"\n"); // 텍스트 설정
+		}
+	}
+	//이벤트2 - 메모장 - new
+	class MenuActionListener2 implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			tt.setText("");
+		}
+	}
+	//이벤트3 - 메모장  - open
+	class MenuActionListener3 implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			FileDialog dialog = new FileDialog(fr, "Open", FileDialog.LOAD);
+            dialog.setVisible(true);
+            String path = dialog.getDirectory() + dialog.getFile();
+            String s ="";
+            try {
+               FileReader r = new FileReader( path ); //파일읽기
+               int k;              
+               for( ;  ; ) {
+                   k = r.read(); // 읽기
+                   if( k == -1) break; // 다읽으면 그만
+                   s += (char)k;               
+               }           
+               r.close(); // 닫기
+            } catch (Exception e2) {
+            	System.out.println("오류"+e); // 오류시출력
+            } 
+            tt.setText(s);   //텍스트 출력
+		}
+	}
+	//이벤트4 - 메모장 - save
+	class MenuActionListener4 implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			FileDialog dialog = new FileDialog(fr,"Save", FileDialog.SAVE);
+            dialog.setVisible(true);
+            String path = dialog.getDirectory() + dialog.getFile();
+            try {
+               FileWriter w = new FileWriter( path ); // 파일쓰기
+               String s = tt.getText(); //텍스트 가져오기
+               w.write(s); //읽기
+               w.close();//닫기
+            } catch (Exception e2) {
+                System.out.println("저장오류"+e2);//오류시출력
+            }
+        }
+		}
+	//이벤트5 - 메모장 - saveAs
+	class MenuActionListener5 implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			FileDialog dialog = new FileDialog(fr,"SaveAs", FileDialog.SAVE);
+            dialog.setVisible(true);
+            String path = dialog.getDirectory() + dialog.getFile();
+            try {
+               FileWriter w = new FileWriter( path ); // 파일쓰기
+               String ss = tt.getText(); // 텍스트 가져오기                
+               w.write(ss);  //쓰기
+               w.close(); // 닫기
+            } catch (Exception e2) {
+                System.out.println("저장오류"+e2); // 오류시 출력
+            }
+		}
+	}
+	//이벤트6 - 게임 - 게임시작
+		class MenuActionListener6 implements ActionListener {
+			public void actionPerformed(ActionEvent e) {
+				new Game3();
+			}
+		}
+		//이벤트7 - 게임 - 계산기
+		class MenuActionListener7 implements ActionListener {
+			public void actionPerformed(ActionEvent e) {
+				new Calculator(); //계산기실행
+			}
+		}
+		//이벤트8 - 게임 - 자바란?
+		class MenuActionListener8 implements ActionListener {
+			public void actionPerformed(ActionEvent e) {
+				tt.setText("1. 자바란?"+"\n"+"제임스고슬링에 의해 만들어진 프로그래밍언어이다."+"\n"+"\n"+
+			"2. 자바의특징"+"\n"+
+			"개발자가 작성한 코드를 JRE만 있다면 플랫폼에 관계없이 실행가능하다. 이것을 WORA(Write Once Run Anywhere) 이라고 한다."+"\n"+
+			"자바의 개발을 위해선 JDK와 JRE가 필요하고 오라클 홈페이지에서 무료로 다운받을 수 있다."+"\n"+"JDK11부터는 JRE를 받지 않아서 처리가능하다."+"자바파일은 .java로 저장되며 .txt로도 읽을 수 있다."
+			+"\n"+"\n"+"3. 자바의장점"+"\n"+
+			"프로그램개발에서 class단위로 나눠서 프로그래밍가능하다. 따라서 class내에 문자가 생겨도 다른 class에는 영향을 미치지 않는다."+"\n"+
+			"이것을 '캡슐화' 라고 한다. 클래스들은 패키지로 묶어서 사용가능하다."+"\n"+"\n"+
+			"4. 자바의 단점"+"\n"+
+			"속도가 느리다. "+"파일을 실행할때 컴파일된 상황이 아니라 실행시 해석되므로 속도가 느리다."+"\n"+"JVM업데이트를 통해 꾸준히 속도 향상 중이다."+"\n"+
+			"예외처리가 불편하다. 예외처리는 좋은기능이지만 프로그래머가 직접 검사하여 예외처리해주어야 한다."+"\n"+"\n"+
+			"5. 자바의 역사"+"\n"+
+			"선마이크로시스템즈의 제임스고슬링과 개발자들은 WORA가능한 언어개발을 위해 그린프로젝트에 들어간다."+"\n"+"자바는 원래 작은가전제품에 사용되도록 설계되었다."+"\n"+
+			"초기의 자바는 오크라고 불렀으며 이때의 오크는 오크나무를 의미한다."+"\n"+"하지만 오크라는 이름은 이미 상표등록 되어있었고, 이름을 자바로 바꾼다."+"\n"+
+			"자바는 1991년에 개발을 시작해 1995년에 발표했다. 현재도 자바에 대한 업데이트는 꾸준히 진행중이다.");
+			}// 텍스트로 설정
+		}
+	//메인
+	public static void main(String[] args) {
+		new No1();//실행
+	}
+}
